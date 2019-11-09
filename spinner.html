@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+
+    <style>
+      .loader {
+        margin: 5rem auto;
+        text-align: center;
+      }
+      .loader svg {
+        height: 5.5rem;
+        width: 5.5rem;
+        fill: #f59a83;
+        transform-origin: 44% 50%;
+        animation: rotate 1.5s infinite linear;
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn-show-loader">Mostrar loader</button>
+    <button class="btn-dismiss-loader">Remover loader</button>
+    <div class="results"></div>
+
+    <script>
+      const elementStrings = {
+        loader: 'loader'
+      };
+
+
+      /**
+      * Deve receber um node element valido
+      * 
+      */
+      const renderLoader = parent => {
+        const loader = `
+            <div class="${elementStrings.loader}">
+                <svg>
+                    <use href="icons.svg#icon-cw"></use>
+                </svg>
+            </div>
+        `;
+
+        if (!parent.nodeType)
+          throw new Error('Parent param must be a Node Type');
+
+        parent.insertAdjacentHTML('afterbegin', loader);
+      };
+
+      const clearLoader = () => {
+        const loader = document.querySelector(`.${elementStrings.loader}`);
+
+        if (loader) loader.parentElement.removeChild(loader);
+      };
+
+      const parent = document.querySelector('.results');
+
+      renderLoader(parent);
+
+      document
+        .querySelector('.btn-show-loader')
+        .addEventListener('click', e => {
+          renderLoader(parent);
+        });
+
+      document
+        .querySelector('.btn-dismiss-loader')
+        .addEventListener('click', e => {
+          clearLoader();
+        });
+    </script>
+  </body>
+</html>
